@@ -23,11 +23,11 @@ def main() -> None:
 
     interface = config.get("interface")
 
+    clear()
     hide_cursor()
 
     with ThreadPoolExecutor() as executor:
         while True:
-            clear()
             mbps_future = executor.submit(get_megabits_per_second, interface)
             pps_future = executor.submit(get_packets_per_second, interface)
             rps_future = executor.submit(get_ram_per_second)
@@ -38,7 +38,7 @@ def main() -> None:
             rps = rps_future.result()
             cps = cps_future.result()
 
-            print(f"Megabits/s: {mbps}\nPackets/s: {pps:,}\nCpu%/s: {cps}\nRam%/s: {rps}")
+            print(f"Megabits/s: {mbps}\nPackets/s: {pps:,}\nCpu/s: {cps}%\nRam/s: {rps}%")
             time.sleep(2)
 
 if __name__ == '__main__':
