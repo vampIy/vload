@@ -4,8 +4,10 @@ import subprocess
 import json
 from concurrent.futures import ThreadPoolExecutor
 
-from assets.funcs.pps import *
-from assets.funcs.bps import *
+from assets.funcs.pps import get_packets_per_second
+from assets.funcs.bps import get_megabits_per_second
+from assets.funcs.rps import get_ram_per_second
+from assets.funcs.cps import get_cpu_per_second
 
 def clear():
     os.system('clear')
