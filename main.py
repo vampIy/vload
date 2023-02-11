@@ -2,6 +2,7 @@ import os
 import sys
 import subprocess
 import json
+import time
 from concurrent.futures import ThreadPoolExecutor
 
 from assets.funcs.pps import get_packets_per_second
@@ -38,6 +39,7 @@ def main() -> None:
             cps = cps_future.result()
 
             print(f"Megabits/s: {mbps}\nPackets/s: {pps:,}\nCpu%/s: {cps}\nRam%/s: {rps}")
+            time.sleep(2)
 
 if __name__ == '__main__':
     main()
