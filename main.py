@@ -19,6 +19,9 @@ def main() -> None:
 
     interface = config.get("interface")
 
+    clear()
+    hide_cursor()
+
     with ThreadPoolExecutor() as executor:
         while True:
             mbps_future = executor.submit(get_megabits_per_second, interface)
@@ -31,6 +34,4 @@ def main() -> None:
             print(f"Megabits/s: {mbps}\nPackets/s: {pps:,}")
 
 if __name__ == '__main__':
-    clear()
-    hide_cursor()
     main()
