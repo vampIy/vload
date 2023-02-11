@@ -4,6 +4,8 @@ Current Version in Beta
 # Things to do
 - [x] show bytes per second
 - [x] show packets per second
+- [x] show cpu
+- [x] show ram
 - [ ] show last attacks type
 - [ ] show last attacks flag
 - [ ] show last attacked source port
@@ -15,7 +17,5 @@ Current Version in Beta
 - [ ] show ip 
 - [ ] show port
 - [ ] show load
-- [ ] show cpu
-- [ ] show ram
 - [ ] show current iptables
 - [ ] show uptime
