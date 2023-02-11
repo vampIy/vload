@@ -27,12 +27,15 @@ def main() -> None:
         while True:
             mbps_future = executor.submit(get_megabits_per_second, interface)
             pps_future = executor.submit(get_packets_per_second, interface)
+            rps_future = executor.submit(get_ram_per_second)
+            cps_future = executor.submit(get_cpu_per_second)
 
             mbps = mbps_future.result()
             pps = pps_future.result()
+            rps = rps.future.result()
+            cps = cps.future.result()
 
-            subprocess.run("cls" if os.name == "nt" else "clear", shell=True)
-            print(f"Megabits/s: {mbps}\nPackets/s: {pps:,}")
+            print(f"Megabits/s: {mbps}\nPackets/s: {pps:,}\nCpu%/s: {cps}\nRam%/s: {rps}")
 
 if __name__ == '__main__':
     main()
