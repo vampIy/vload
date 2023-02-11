@@ -41,7 +41,7 @@ def main() -> None:
             cps = cps_future.result()
 
             clear()
-            print(f"IP: {ip}\nPort: {port}\nType: {type}\nMegabits/s: {mbps}\nPackets/s: {pps:,}\nCpu/s: {cps}%\nRam/s: {rps}%")
+            print(f"IP: {ip}\nPort: {port}\nType: {type}\nMegabits/s: {mbps}\nPackets/s: {pps:,}\nCpu: {cps}%\nRam: {rps}%")
             time.sleep(1)
 
 if __name__ == '__main__':
