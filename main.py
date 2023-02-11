@@ -34,8 +34,8 @@ def main() -> None:
 
             mbps = mbps_future.result()
             pps = pps_future.result()
-            rps = rps.future.result()
-            cps = cps.future.result()
+            rps = rps_future.result()
+            cps = cps_future.result()
 
             print(f"Megabits/s: {mbps}\nPackets/s: {pps:,}\nCpu%/s: {cps}\nRam%/s: {rps}")
 
