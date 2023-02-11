@@ -1,9 +1,7 @@
 import os
 import sys
-import threading
-import time
 import subprocess
-import json
+from concurrent.futures import ThreadPoolExecutor
 
 from assets.funcs.pps import *
 from assets.funcs.bps import *
@@ -15,11 +13,24 @@ def hide_cursor():
     sys.stdout.write("\033[?25l")
     sys.stdout.flush()
 
-def main():
-    clear()
-    hide_cursor()
-    threading.Thread(target=print_packets_per_second).start()
-    threading.Thread(target=print_bytes_per_second).start()
+def main() -> None:
+    with open("assets/config/config.json", encoding="utf-8") as config_file:
+        config = json.load(config_file)
+
+    interface = config.get("interface")
+
+    with ThreadPoolExecutor() as executor:
+        while True:
+            mbps_future = executor.submit(get_megabits_per_second, interface)
+            pps_future = executor.submit(get_packets_per_second, interface)
+
+            mbps = mbps_future.result()
+            pps = pps_future.result()
+
+            subprocess.run("cls" if os.name == "nt" else "clear", shell=True)
+            print(f"Megabits/s: {mbps}\nPackets/s: {pps:,}")
 
 if __name__ == '__main__':
+    clear()
+    hide_cursor()
     main()
