@@ -23,7 +23,6 @@ def main() -> None:
 
     interface = config.get("interface")
 
-    clear()
     hide_cursor()
 
     with ThreadPoolExecutor() as executor:
@@ -38,8 +37,9 @@ def main() -> None:
             rps = rps_future.result()
             cps = cps_future.result()
 
-            print(f"Megabits/s: {mbps}\nPackets/s: {pps:,}\nCpu/s: {cps}%\nRam/s: {rps}%")
-            time.sleep(2)
+            clear()
+            print(f"Megabits/s: {mbps}\nPackets/s: {pps:,}\nCpu/s: {cps} %\nRam/s: {rps} %")
+            time.sleep(1)
 
 if __name__ == '__main__':
     main()
