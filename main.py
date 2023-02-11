@@ -22,6 +22,9 @@ def main() -> None:
         config = json.load(config_file)
 
     interface = config.get("interface")
+    ip = config.get("ip")
+    port = config.get("port")
+    type = config.get("type")
 
     hide_cursor()
 
@@ -38,7 +41,7 @@ def main() -> None:
             cps = cps_future.result()
 
             clear()
-            print(f"Megabits/s: {mbps}\nPackets/s: {pps:,}\nCpu/s: {cps} %\nRam/s: {rps} %")
+            print(f"IP: {ip}\nPort: {port}\nType: {type}\nMegabits/s: {mbps}\nPackets/s: {pps:,}\nCpu/s: {cps} %\nRam/s: {rps} %")
             time.sleep(1)
 
 if __name__ == '__main__':
