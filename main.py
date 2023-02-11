@@ -22,11 +22,11 @@ def main() -> None:
 
     interface = config.get("interface")
 
-    clear()
     hide_cursor()
 
     with ThreadPoolExecutor() as executor:
         while True:
+            clear()
             mbps_future = executor.submit(get_megabits_per_second, interface)
             pps_future = executor.submit(get_packets_per_second, interface)
             rps_future = executor.submit(get_ram_per_second)
