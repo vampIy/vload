@@ -1,5 +1,5 @@
 # nell-monitor
-Current Version in Beta
+Best alternave to shitshield and dickload. [Current Version in Beta]
 
 # Things to do
 - [x] show bytes per second
