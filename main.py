@@ -29,50 +29,43 @@ def main() -> None:
 
     hide_cursor()
 
-    with ThreadPoolExecutor() as executor:
-        while True:
-            mbps_future = executor.submit(get_megabits_per_second, interface)
-            pps_future = executor.submit(get_packets_per_second, interface)
-            get_ram_future = executor.submit(get_ram_percentage)
-            get_cpu_future = executor.submit(get_cpu_percentage)
-            get_time_future = executor.submit(get_time)
+ascii = """
+░░░░░░░░░░░░░░░▄█▄░░░░░░░░░░░░░░░
+░░░░░░░░░░░░░▄█████▄░░░░░░░░░░░░░
+░░░░░░░░░░░▄██████▀█░░░░░░░░░░░░░
+░░░░░░░░░▄██████▀░▄▀░▄█▄░░░░░░░░░
+░░░░░░░▄██████▀░▄▀░▄█████▄░░░░░░░
+░░░░░░░█▀███████░▄█████████▄░░░░░
+░░░▄█▄░▀▄░▀██████████████████▄░░░
+░▄█████▄░▀▄░▀███████▀░█░▀██████▄░
+░█▀██████▄░███████████░▀▄░▀███▀█░
+░▀▄░▀██████████████████▄░▀▄░█░▄▀░
+░░░▀▄░▀███████▀░█░▀██████▄░▀█▀░░░
+░░░░░▀▄░▀███▀░▄▀░███████▀█░░░░░░░
+░░░░░░░▀▄░█░▄▀░▄██████▀░▄▀░░░░░░░
+░░░░░░░░░▀█▀░▄██████▀░▄▀░░░░░░░░░
+░░░░░░░░░░░░░█▀███▀░▄▀░░░░░░░░░░░
+░░░░░░░░░░░░░▀▄░█░▄▀░░░░░░░░░░░░░
+░░░░░░░░░░░░░░░▀█▀░░░░░░░░░░░░░░░
+"""
 
-            mb = mbps_future.result()
-            p = pps_future.result()
-            r = get_ram_future.result()
-            c = get_cpu_future.result()
-            t = get_time_future.result()
+with ThreadPoolExecutor() as executor:
+    while True:
+        mbps_future = executor.submit(get_megabits_per_second, interface)
+        pps_future = executor.submit(get_packets_per_second, interface)
+        get_ram_future = executor.submit(get_ram_percentage)
+        get_cpu_future = executor.submit(get_cpu_percentage)
+        get_time_future = executor.submit(get_time)
 
-            ascii_art1 = f'''
-            \x1b[38;5;42m /$$    /$$\x1b[38;5;43m /$$      \x1b[38;5;44m  /$$$$$$ \x1b[38;5;45m  /$$$$$$ \x1b[38;5;51m /$$$$$$$ 
-            \x1b[38;5;42m| $$   | $$\x1b[38;5;43m| $$      \x1b[38;5;44m /$$__  $$\x1b[38;5;45m /$$__  $$\x1b[38;5;51m| $$__  $$
-            \x1b[38;5;42m| $$   | $$\x1b[38;5;43m| $$      \x1b[38;5;44m| $$  \ $$\x1b[38;5;45m| $$  \ $$\x1b[38;5;51m| $$  \ $$
-            \x1b[38;5;42m|  $$ / $$/\x1b[38;5;43m| $$      \x1b[38;5;44m| $$  | $$\x1b[38;5;45m| $$$$$$$$\x1b[38;5;51m| $$  | $$
-            \x1b[38;5;42m \  $$ $$/ \x1b[38;5;43m| $$      \x1b[38;5;44m| $$  | $$\x1b[38;5;45m| $$__  $$\x1b[38;5;51m| $$  | $$
-            \x1b[38;5;42m  \  $$$/  \x1b[38;5;43m| $$      \x1b[38;5;44m| $$  | $$\x1b[38;5;45m| $$  | $$\x1b[38;5;51m| $$  | $$
-            \x1b[38;5;42m   \  $/   \x1b[38;5;43m| $$$$$$$$\x1b[38;5;44m|  $$$$$$/\x1b[38;5;45m| $$  | $$\x1b[38;5;51m| $$$$$$$/
-            \x1b[38;5;42m    \_/    \x1b[38;5;43m|________/\x1b[38;5;44m \______/ \x1b[38;5;45m|__/  |__/\x1b[38;5;51m|_______/ 
-            '''
+        mb = mbps_future.result()
+        p = pps_future.result()
+        r = get_ram_future.result()
+        c = get_cpu_future.result()
+        t = get_time_future.result()
         
-            ascii_art2 = f'''
-            \x1b[38;5;161m /$$    /$$\x1b[38;5;162m /$$      \x1b[38;5;163m  /$$$$$$ \x1b[38;5;164m  /$$$$$$ \x1b[38;5;165m /$$$$$$$ 
-            \x1b[38;5;161m| $$   | $$\x1b[38;5;162m| $$      \x1b[38;5;163m /$$__  $$\x1b[38;5;164m /$$__  $$\x1b[38;5;165m| $$__  $$
-            \x1b[38;5;161m| $$   | $$\x1b[38;5;162m| $$      \x1b[38;5;163m| $$  \ $$\x1b[38;5;164m| $$  \ $$\x1b[38;5;165m| $$  \ $$
-            \x1b[38;5;161m|  $$ / $$/\x1b[38;5;162m| $$      \x1b[38;5;163m| $$  | $$\x1b[38;5;164m| $$$$$$$$\x1b[38;5;165m| $$  | $$
-            \x1b[38;5;161m \  $$ $$/ \x1b[38;5;162m| $$      \x1b[38;5;163m| $$  | $$\x1b[38;5;164m| $$__  $$\x1b[38;5;165m| $$  | $$
-            \x1b[38;5;161m  \  $$$/  \x1b[38;5;162m| $$      \x1b[38;5;163m| $$  | $$\x1b[38;5;164m| $$  | $$\x1b[38;5;165m| $$  | $$
-            \x1b[38;5;161m   \  $/   \x1b[38;5;162m| $$$$$$$$\x1b[38;5;163m|  $$$$$$/\x1b[38;5;164m| $$  | $$\x1b[38;5;165m| $$$$$$$/
-            \x1b[38;5;161m    \_/    \x1b[38;5;162m|________/\x1b[38;5;163m \______/ \x1b[38;5;164m|__/  |__/\x1b[38;5;165m|_______/ 
-            '''
-            
-            print(ascii_art1)
-            print(f"Date: {t}\nIP: {ip}\nPort: {port}\nType: {type}\nMegabits/s: {mb}\nPackets/s: {p:,}\nCpu: {c}%\nRam: {r}%")
-            time.sleep(1)
-            os.system('cls' if os.name == 'nt' else 'clear')
-            print(ascii_art2)
-            print(f"Date: {t}\nIP: {ip}\nPort: {port}\nType: {type}\nMegabits/s: {mb}\nPackets/s: {p:,}\nCpu: {c}%\nRam: {r}%")
-            time.sleep(1)
-            os.system('cls' if os.name == 'nt' else 'clear')
+        clear()
+        print(f"Date: {t}\nIP: {ip}\nPort: {port}\nType: {type}\nMegabits/s: {mb}\nPackets/s: {p:,}\nCpu: {c}%\nRam: {r}%")
+        time.sleep(1)
 
 if __name__ == '__main__':
     main()
