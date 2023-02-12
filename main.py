@@ -3,6 +3,7 @@ import sys
 import json
 import time
 import datetime
+from pystyle import Anime, Colors, Colorate
 from concurrent.futures import ThreadPoolExecutor
 
 from assets.funcs.packet_per_sec import get_packets_per_second
@@ -30,7 +31,14 @@ def main() -> None:
     hide_cursor()
 
     ascii = """
-
+     /$$    /$$ /$$        /$$$$$$   /$$$$$$  /$$$$$$$ 
+    | $$   | $$| $$       /$$__  $$ /$$__  $$| $$__  $$
+    | $$   | $$| $$      | $$  \ $$| $$  \ $$| $$  \ $$
+    |  $$ / $$/| $$      | $$  | $$| $$$$$$$$| $$  | $$
+     \  $$ $$/ | $$      | $$  | $$| $$__  $$| $$  | $$
+      \  $$$/  | $$      | $$  | $$| $$  | $$| $$  | $$
+       \  $/   | $$$$$$$$|  $$$$$$/| $$  | $$| $$$$$$$/
+        \_/    |________/ \______/ |__/  |__/|_______/ 
     """
 
     with ThreadPoolExecutor() as executor:
@@ -48,8 +56,7 @@ def main() -> None:
             t = get_time_future.result()
             
             clear()
-            print(f"{ascii}")
-            print("\033[31mR\033[33mA\033[32mI\033[36mN\033[34mB\033[35mO\033[31mW")
+            Anime.Fade((ascii), Colors.purple_to_blue, Colorate.Horizontal, interval=0.030)
             print(f"Date: {t}\nIP: {ip}\nPort: {port}\nType: {type}\nMegabits/s: {mb}\nPackets/s: {p:,}\nCpu: {c}%\nRam: {r}%")
             time.sleep(1)
 
