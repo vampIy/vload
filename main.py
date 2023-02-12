@@ -35,7 +35,7 @@ def main() -> None:
             pps_future = executor.submit(get_packets_per_second, interface)
             get_ram_future = executor.submit(get_ram_percentage)
             get_cpu_future = executor.submit(get_cpu_percentage)
-            get_time_future = exceutor.submit(get_time)
+            get_time_future = executor.submit(get_time)
 
             mb = mbps_future.result()
             p = pps_future.result()
