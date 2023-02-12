@@ -1,8 +1,9 @@
 import os
 import sys
-import subprocess
 import json
 import time
+import datetime
+import date
 from concurrent.futures import ThreadPoolExecutor
 
 from assets.funcs.packet_per_sec import get_packets_per_second
@@ -33,16 +34,18 @@ def main() -> None:
         while True:
             mbps_future = executor.submit(get_megabits_per_second, interface)
             pps_future = executor.submit(get_packets_per_second, interface)
-            rps_future = executor.submit(get_ram_percentage)
-            cps_future = executor.submit(get_cpu_percentage)
+            get_ram_future = executor.submit(get_ram_percentage)
+            get_cpu_future = executor.submit(get_cpu_percentage)
+            get_time_future = exceutor.submit(get_time)
 
-            mbps = mbps_future.result()
-            pps = pps_future.result()
-            rps = rps_future.result()
-            cps = cps_future.result()
-
+            mb = mbps_future.result()
+            p = pps_future.result()
+            r = get_ram_future.result()
+            c = get_cpu_future.result()
+            t = get_time_future.result()
+            
             clear()
-            print(f"Uptime: {date}\nIP: {ip}\nPort: {port}\nType: {type}\nMegabits/s: {mbps}\nPackets/s: {pps:,}\nCpu: {cps}%\nRam: {rps}%")
+            print(f"Uptime: {t}\nIP: {ip}\nPort: {port}\nType: {type}\nMegabits/s: {mb}\nPackets/s: {p:,}\nCpu: {c}%\nRam: {r}%")
             time.sleep(1)
 
 if __name__ == '__main__':
