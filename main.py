@@ -72,6 +72,7 @@ def main() -> None:
             time.sleep(1)
             os.system('cls' if os.name == 'nt' else 'clear')
             print(f"Date: {t}\nIP: {ip}\nPort: {port}\nType: {type}\nMegabits/s: {mb}\nPackets/s: {p:,}\nCpu: {c}%\nRam: {r}%")
+            time.slee(1)
             os.system('cls' if os.name == 'nt' else 'clear')
 
 if __name__ == '__main__':
