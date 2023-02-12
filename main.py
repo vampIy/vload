@@ -3,7 +3,6 @@ import sys
 import json
 import time
 import datetime
-from pystyle import Anime, Colors, Colorate
 from concurrent.futures import ThreadPoolExecutor
 
 from assets.funcs.packet_per_sec import get_packets_per_second
@@ -30,16 +29,27 @@ def main() -> None:
 
     hide_cursor()
 
-    ascii = """
-     /$$    /$$ /$$        /$$$$$$   /$$$$$$  /$$$$$$$ 
-    | $$   | $$| $$       /$$__  $$ /$$__  $$| $$__  $$
-    | $$   | $$| $$      | $$  \ $$| $$  \ $$| $$  \ $$
-    |  $$ / $$/| $$      | $$  | $$| $$$$$$$$| $$  | $$
-     \  $$ $$/ | $$      | $$  | $$| $$__  $$| $$  | $$
-      \  $$$/  | $$      | $$  | $$| $$  | $$| $$  | $$
-       \  $/   | $$$$$$$$|  $$$$$$/| $$  | $$| $$$$$$$/
-        \_/    |________/ \______/ |__/  |__/|_______/ 
-    """
+    ascii_art1 = f'''
+    \x1b[38;5;42m /$$    /$$\x1b[38;5;43m /$$      \x1b[38;5;44m  /$$$$$$ \x1b[38;5;45m  /$$$$$$ \x1b[38;5;51m /$$$$$$$ 
+    \x1b[38;5;42m| $$   | $$\x1b[38;5;43m| $$      \x1b[38;5;44m /$$__  $$\x1b[38;5;45m /$$__  $$\x1b[38;5;51m| $$__  $$
+    \x1b[38;5;42m| $$   | $$\x1b[38;5;43m| $$      \x1b[38;5;44m| $$  \ $$\x1b[38;5;45m| $$  \ $$\x1b[38;5;51m| $$  \ $$
+    \x1b[38;5;42m|  $$ / $$/\x1b[38;5;43m| $$      \x1b[38;5;44m| $$  | $$\x1b[38;5;45m| $$$$$$$$\x1b[38;5;51m| $$  | $$
+    \x1b[38;5;42m \  $$ $$/ \x1b[38;5;43m| $$      \x1b[38;5;44m| $$  | $$\x1b[38;5;45m| $$__  $$\x1b[38;5;51m| $$  | $$
+    \x1b[38;5;42m  \  $$$/  \x1b[38;5;43m| $$      \x1b[38;5;44m| $$  | $$\x1b[38;5;45m| $$  | $$\x1b[38;5;51m| $$  | $$
+    \x1b[38;5;42m   \  $/   \x1b[38;5;43m| $$$$$$$$\x1b[38;5;44m|  $$$$$$/\x1b[38;5;45m| $$  | $$\x1b[38;5;51m| $$$$$$$/
+    \x1b[38;5;42m    \_/    \x1b[38;5;43m|________/\x1b[38;5;44m \______/ \x1b[38;5;45m|__/  |__/\x1b[38;5;51m|_______/ 
+    '''
+
+    ascii_art2 = f'''
+    \x1b[38;5;161m /$$    /$$\x1b[38;5;162m /$$      \x1b[38;5;163m  /$$$$$$ \x1b[38;5;164m  /$$$$$$ \x1b[38;5;165m /$$$$$$$ 
+    \x1b[38;5;161m| $$   | $$\x1b[38;5;162m| $$      \x1b[38;5;163m /$$__  $$\x1b[38;5;164m /$$__  $$\x1b[38;5;165m| $$__  $$
+    \x1b[38;5;161m| $$   | $$\x1b[38;5;162m| $$      \x1b[38;5;163m| $$  \ $$\x1b[38;5;164m| $$  \ $$\x1b[38;5;165m| $$  \ $$
+    \x1b[38;5;161m|  $$ / $$/\x1b[38;5;162m| $$      \x1b[38;5;163m| $$  | $$\x1b[38;5;164m| $$$$$$$$\x1b[38;5;165m| $$  | $$
+    \x1b[38;5;161m \  $$ $$/ \x1b[38;5;162m| $$      \x1b[38;5;163m| $$  | $$\x1b[38;5;164m| $$__  $$\x1b[38;5;165m| $$  | $$
+    \x1b[38;5;161m  \  $$$/  \x1b[38;5;162m| $$      \x1b[38;5;163m| $$  | $$\x1b[38;5;164m| $$  | $$\x1b[38;5;165m| $$  | $$
+    \x1b[38;5;161m   \  $/   \x1b[38;5;162m| $$$$$$$$\x1b[38;5;163m|  $$$$$$/\x1b[38;5;164m| $$  | $$\x1b[38;5;165m| $$$$$$$/
+    \x1b[38;5;161m    \_/    \x1b[38;5;162m|________/\x1b[38;5;163m \______/ \x1b[38;5;164m|__/  |__/\x1b[38;5;165m|_______/ 
+    '''
 
     with ThreadPoolExecutor() as executor:
         while True:
@@ -55,10 +65,14 @@ def main() -> None:
             c = get_cpu_future.result()
             t = get_time_future.result()
             
-            clear()
-            Anime.Fade((ascii), Colors.purple_to_blue, Colorate.Horizontal, interval=0.030)
-            print(f"Date: {t}\nIP: {ip}\nPort: {port}\nType: {type}\nMegabits/s: {mb}\nPackets/s: {p:,}\nCpu: {c}%\nRam: {r}%")
+            print(ascii_art1)
             time.sleep(1)
+            os.system('cls' if os.name == 'nt' else 'clear')
+            print(ascii_art2)
+            time.sleep(1)
+            os.system('cls' if os.name == 'nt' else 'clear')
+            print(f"Date: {t}\nIP: {ip}\nPort: {port}\nType: {type}\nMegabits/s: {mb}\nPackets/s: {p:,}\nCpu: {c}%\nRam: {r}%")
+            os.system('cls' if os.name == 'nt' else 'clear')
 
 if __name__ == '__main__':
     main()
