@@ -36,23 +36,23 @@ def main() -> None:
      じしˍ,)ノ
     '''
     with ThreadPoolExecutor() as executor:
-    while True:
-        mbps_future = executor.submit(get_megabits_per_second, interface)
-        pps_future = executor.submit(get_packets_per_second, interface)
-        get_ram_future = executor.submit(get_ram_percentage)
-        get_cpu_future = executor.submit(get_cpu_percentage)
-        get_time_future = executor.submit(get_time)
-
-        mb = mbps_future.result()
-        p = pps_future.result()
-        r = get_ram_future.result()
-        c = get_cpu_future.result()
-        t = get_time_future.result()
-        
-        clear()
-        print(f"{ascii}")
-        print(f"Date: {t}\nIP: {ip}\nPort: {port}\nType: {type}\nMegabits/s: {mb}\nPackets/s: {p:,}\nCpu: {c}%\nRam: {r}%")
-        time.sleep(1)
+        while True:
+            mbps_future = executor.submit(get_megabits_per_second, interface)
+            pps_future = executor.submit(get_packets_per_second, interface)
+            get_ram_future = executor.submit(get_ram_percentage)
+            get_cpu_future = executor.submit(get_cpu_percentage)
+            get_time_future = executor.submit(get_time)
+    
+            mb = mbps_future.result()
+            p = pps_future.result()
+            r = get_ram_future.result()
+            c = get_cpu_future.result()
+            t = get_time_future.result()
+            
+            clear()
+            print(f"{ascii}")
+            print(f"Date: {t}\nIP: {ip}\nPort: {port}\nType: {type}\nMegabits/s: {mb}\nPackets/s: {p:,}\nCpu: {c}%\nRam: {r}%")
+            time.sleep(1)
 
 if __name__ == '__main__':
     main()
