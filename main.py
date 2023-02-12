@@ -7,8 +7,8 @@ from concurrent.futures import ThreadPoolExecutor
 
 from assets.funcs.pps import get_packets_per_second
 from assets.funcs.bps import get_megabits_per_second
-from assets.funcs.rps import get_ram_per_second
-from assets.funcs.cps import get_cpu_per_second
+from assets.funcs.rps import get_ram_percentage
+from assets.funcs.cps import get_cpu_percentage
 
 def clear():
     os.system('clear')
@@ -32,8 +32,8 @@ def main() -> None:
         while True:
             mbps_future = executor.submit(get_megabits_per_second, interface)
             pps_future = executor.submit(get_packets_per_second, interface)
-            rps_future = executor.submit(get_ram_per_second)
-            cps_future = executor.submit(get_cpu_per_second)
+            rps_future = executor.submit(get_ram_percentage)
+            cps_future = executor.submit(get_cpu_percentage)
 
             mbps = mbps_future.result()
             pps = pps_future.result()
