@@ -30,10 +30,7 @@ def main() -> None:
     hide_cursor()
 
     ascii = '''
-      ╱|、
-     (` - 7
-     |、⁻〵
-     じしˍ,)ノ
+    vload version 1
     '''
     with ThreadPoolExecutor() as executor:
         while True:
