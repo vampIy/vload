@@ -52,8 +52,7 @@ def main() -> None:
             \x1b[38;5;42m  \  $$$/  \x1b[38;5;43m| $$      \x1b[38;5;44m| $$  | $$\x1b[38;5;45m| $$  | $$\x1b[38;5;51m| $$  | $$
             \x1b[38;5;42m   \  $/   \x1b[38;5;43m| $$$$$$$$\x1b[38;5;44m|  $$$$$$/\x1b[38;5;45m| $$  | $$\x1b[38;5;51m| $$$$$$$/
             \x1b[38;5;42m    \_/    \x1b[38;5;43m|________/\x1b[38;5;44m \______/ \x1b[38;5;45m|__/  |__/\x1b[38;5;51m|_______/ 
-            print(f"Date: {t}\nIP: {ip}\nPort: {port}\nType: {type}\nMegabits/s: {mb}\nPackets/s: {p:,}\nCpu: {c}%\nRam: {r}%")
-            '''
+            ''' + print(f"Date: {t}\nIP: {ip}\nPort: {port}\nType: {type}\nMegabits/s: {mb}\nPackets/s: {p:,}\nCpu: {c}%\nRam: {r}%")
         
             ascii_art2 = f'''
             \x1b[38;5;161m /$$    /$$\x1b[38;5;162m /$$      \x1b[38;5;163m  /$$$$$$ \x1b[38;5;164m  /$$$$$$ \x1b[38;5;165m /$$$$$$$ 
@@ -64,8 +63,7 @@ def main() -> None:
             \x1b[38;5;161m  \  $$$/  \x1b[38;5;162m| $$      \x1b[38;5;163m| $$  | $$\x1b[38;5;164m| $$  | $$\x1b[38;5;165m| $$  | $$
             \x1b[38;5;161m   \  $/   \x1b[38;5;162m| $$$$$$$$\x1b[38;5;163m|  $$$$$$/\x1b[38;5;164m| $$  | $$\x1b[38;5;165m| $$$$$$$/
             \x1b[38;5;161m    \_/    \x1b[38;5;162m|________/\x1b[38;5;163m \______/ \x1b[38;5;164m|__/  |__/\x1b[38;5;165m|_______/ 
-            print(f"Date: {t}\nIP: {ip}\nPort: {port}\nType: {type}\nMegabits/s: {mb}\nPackets/s: {p:,}\nCpu: {c}%\nRam: {r}%")
-            '''
+            ''' + print(f"Date: {t}\nIP: {ip}\nPort: {port}\nType: {type}\nMegabits/s: {mb}\nPackets/s: {p:,}\nCpu: {c}%\nRam: {r}%")
             
             print(ascii_art1)
             time.sleep(1)
