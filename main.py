@@ -5,10 +5,10 @@ import json
 import time
 from concurrent.futures import ThreadPoolExecutor
 
-from assets.funcs.pps import get_packets_per_second
-from assets.funcs.bps import get_megabits_per_second
-from assets.funcs.rps import get_ram_percentage
-from assets.funcs.cps import get_cpu_percentage
+from assets.funcs.packet_per_sec import get_packets_per_second
+from assets.funcs.bytes_per_sec import get_megabits_per_second
+from assets.funcs.get_ram import get_ram_percentage
+from assets.funcs.get_cpu import get_cpu_percentage
 
 def clear():
     os.system('clear')
