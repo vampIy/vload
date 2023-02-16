@@ -49,7 +49,7 @@ def main() -> None:
             
             print(f"Date: {t}\nIP: {ip}\nPort: {port}\nType: {type}\nMegabits/s: {mb}\nPackets/s: {p:,}\nCpu: {c}%\nRam: {r}%")
             time.sleep(1)
+            clear()
 
 if __name__ == '__main__':
     main()
-    print(f"{ascii}")
