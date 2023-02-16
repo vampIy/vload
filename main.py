@@ -32,6 +32,7 @@ def main() -> None:
     ascii = '''
     vload version 1
     '''
+    print(f"{ascii}")
     with ThreadPoolExecutor() as executor:
         while True:
             mbps_future = executor.submit(get_megabits_per_second, interface)
@@ -47,7 +48,6 @@ def main() -> None:
             t = get_time_future.result()
             
             clear()
-            print(f"{ascii}")
             print(f"Date: {t}\nIP: {ip}\nPort: {port}\nType: {type}\nMegabits/s: {mb}\nPackets/s: {p:,}\nCpu: {c}%\nRam: {r}%")
             time.sleep(1)
 
