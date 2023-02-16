@@ -2,7 +2,7 @@ import os
 import sys
 import json
 import time
-import datetime
+from colorama import Fore
 from concurrent.futures import ThreadPoolExecutor
 
 from assets.funcs.packet_per_sec import get_packets_per_second
@@ -14,10 +14,6 @@ from assets.funcs.get_time import get_time
 def clear():
     os.system('clear')
 
-def hide_cursor():
-    sys.stdout.write("\033[?25l")
-    sys.stdout.flush()
-
 def main() -> None:
     with open("assets/config/config.json", encoding="utf-8") as config_file:
         config = json.load(config_file)
@@ -27,12 +23,25 @@ def main() -> None:
     port = config.get("port")
     type = config.get("type")
 
-    hide_cursor()
+    sys.stdout.write("\033[?25l")
+    sys.stdout.flush()
 
-    ascii = '''
-    vload version 1
-    '''
-    clear()
+    ascii = f"""
+{Fore.LIGHTBLUE_EX}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢤⣶⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+{Fore.LIGHTBLUE_EX}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⡾⠿⢿⡀⠀⠀⠀⠀⣠⣶⣿⣷⠀⠀⠀⠀
+{Fore.LIGHTBLUE_EX}⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣦⣴⣿⡋⠀⠀⠈⢳⡄⠀⢠⣾⣿⠁⠈⣿⡆⠀⠀⠀
+{Fore.LIGHTBLUE_EX}⠀⠀⠀⠀⠀⠀⠀⣰⣿⣿⠿⠛⠉⠉⠁⠀⠀⠀⠹⡄⣿⣿⣿⠀⠀⢹⡇⠀⠀⠀
+{Fore.LIGHTBLUE_EX}⠀⠀⠀⠀⠀⣠⣾⡿⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⣰⣏⢻⣿⣿⡆⠀⠸⣿⠀⠀⠀
+{Fore.LIGHTBLUE_EX}⠀⠀⠀⢀⣴⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣾⣿⣿⣆⠹⣿⣷⠀⢘⣿⠀⠀⠀
+{Fore.LIGHTBLUE_EX}⠀⠀⢀⡾⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⣿⠋⠉⠛⠂⠹⠿⣲⣿⣿⣧⠀⠀
+{Fore.LIGHTBLUE_EX}⠀⢠⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⣿⣿⣿⣷⣾⣿⡇⢀⠀⣼⣿⣿⣿⣧⠀
+{Fore.LIGHTBLUE_EX}⠰⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⡘⢿⣿⣿⣿⠀
+{Fore.LIGHTBLUE_EX}⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⣷⡈⠿⢿⣿⡆
+{Fore.LIGHTBLUE_EX}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠛⠁⢙⠛⣿⣿⣿⣿⡟⠀⡿⠀⠀⢀⣿⡇
+{Fore.LIGHTBLUE_EX}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣶⣤⣉⣛⠻⠇⢠⣿⣾⣿⡄⢻⡇
+{Fore.LIGHTBLUE_EX}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣦⣤⣾⣿⣿⣿⣿⣆⠁
+    """
+
     with ThreadPoolExecutor() as executor:
         while True:
             mbps_future = executor.submit(get_megabits_per_second, interface)
@@ -47,9 +56,16 @@ def main() -> None:
             c = get_cpu_future.result()
             t = get_time_future.result()
             
-            print(f"Date: {t}\nIP: {ip}\nPort: {port}\nType: {type}\nMegabits/s: {mb}\nPackets/s: {p:,}\nCpu: {c}%\nRam: {r}%")
-            time.sleep(1)
             clear()
+            print(f"Date: {t}")
+            print(f"IP: {ip}")
+            print(f"Port: {port}")
+            print(f"Type: {type}")
+            print(f"Megabits/s: {mb}")
+            print(f"Packets/s: {p:,}")
+            print(f"Cpu: {c}%")
+            print(f"Ram: {r}%")
+            time.sleep(1)
 
 if __name__ == '__main__':
     main()
