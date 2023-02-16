@@ -59,7 +59,6 @@ def main() -> None:
             c = get_cpu_future.result()
             t = get_time_future.result()
             
-            clear()
             print(f"Date: {t}")
             print(f"IP: {ip}")
             print(f"Port: {port}")
@@ -69,6 +68,8 @@ def main() -> None:
             print(f"Cpu: {c}%")
             print(f"Ram: {r}%")
             time.sleep(1)
+            for i in range(4):
+                sys.stdout.write('\x1b[1A')
 
 if __name__ == '__main__':
     main()
