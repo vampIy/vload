@@ -42,6 +42,9 @@ def main() -> None:
 {Fore.LIGHTBLUE_EX}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣦⣤⣾⣿⣿⣿⣿⣆⠁
     """
 
+    clear()
+    print(f"{ascii}")
+
     with ThreadPoolExecutor() as executor:
         while True:
             mbps_future = executor.submit(get_megabits_per_second, interface)
