@@ -9,7 +9,6 @@ from assets.funcs.packet_per_sec import get_packets_per_second
 from assets.funcs.bytes_per_sec import get_megabits_per_second
 from assets.funcs.get_ram import get_ram_percentage
 from assets.funcs.get_cpu import get_cpu_percentage
-from assets.funcs.get_time import get_time
 
 def clear():
     os.system('clear')
@@ -51,24 +50,21 @@ def main() -> None:
             pps_future = executor.submit(get_packets_per_second, interface)
             get_ram_future = executor.submit(get_ram_percentage)
             get_cpu_future = executor.submit(get_cpu_percentage)
-            get_time_future = executor.submit(get_time)
     
             mb = mbps_future.result()
             p = pps_future.result()
             r = get_ram_future.result()
             c = get_cpu_future.result()
-            t = get_time_future.result()
             
             print(f"Megabits/s: {mb}")
             print(f"Packets/s: {p:,}")
             print(f"Cpu: {c}%")
             print(f"Ram: {r}%")
-            print(f"Date: {t}")
             print(f"IP: {ip}")
             print(f"Port: {port}")
             print(f"Type: {type}")
             time.sleep(1)
-            for i in range(4):
+            for i in range(7):
                 sys.stdout.write('\x1b[1A')
 
 if __name__ == '__main__':
