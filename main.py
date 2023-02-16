@@ -55,15 +55,12 @@ def main() -> None:
             p = pps_future.result()
             r = get_ram_future.result()
             c = get_cpu_future.result()
-            
-            print(f"Megabits/s: {mb}")
-            print(f"Packets/s: {p:,}")
-            print(f"Cpu: {c}%")
-            print(f"Ram: {r}%")
-            print(f"IP: {ip}")
-            print(f"Port: {port}")
-            print(f"Type: {type}")
-            time.sleep(1)
+
+            print(f"Cpu: {c}%  |  IP: {ip}")
+            print(f"Ram: {r}%  |  Port: {port}")
+            print(f"Megabits/s: {mb}  |  Type: {type}")
+            print(f"Packets/s: {p:,}  |")
+            time.sleep(0.25)
             for i in range(7):
                 sys.stdout.write('\x1b[1A')
 
