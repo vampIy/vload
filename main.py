@@ -44,7 +44,7 @@ def get_last_attacked_destination_port():
     else:
         return
 
-def get_megabits_per_second():
+def get_megabits_per_second(interface: str) -> int:
     old_b = subprocess.check_output("grep %s /proc/net/dev | cut -d : -f2 | awk \'{print $1}\'" % interface, shell=True)
     old_b2 = int(float(old_b.decode('utf8').rstrip()))
     time.sleep(1)
