@@ -11,10 +11,10 @@ def get_last_attacked_source_port():
     with open('/var/log/syslog', 'r') as f:
         log_lines = f.readlines()
 
-    attack_regex = r'.*SRC=.* SRCPT=(\d+)'
+    ddos_regex = r'.*SYN_RECV.*SRCPT=(\d+).*'
 
     for line in reversed(log_lines):
-        match = re.match(attack_regex, line)
+        match = re.match(ddos_regex, line)
         if match:
             attacked_src_port = match.group(1)
             return attacked_src_port
@@ -25,10 +25,10 @@ def get_last_attacked_destination_port():
     with open('/var/log/syslog', 'r') as f:
         log_lines = f.readlines()
 
-    attack_regex = r'.*DPT=(\d+).*'
+    ddos_regex = r'.*SYN_RECV.*DPT=(\d+).*'
 
     for line in reversed(log_lines):
-        match = re.match(attack_regex, line)
+        match = re.match(ddos_regex, line)
         if match:
             attacked_dest_port = match.group(1)
             return attacked_dest_port
