@@ -93,7 +93,7 @@ def main() -> None:
             print(f"Ram: {r}%")
             print(f"Last attacked source port: {s}")
             time.sleep(0.25)
-            for i in range(7):
+            for i in range(8):
                 sys.stdout.write('\x1b[1A')
 
 if __name__ == '__main__':
