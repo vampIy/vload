@@ -107,8 +107,8 @@ def main() -> None:
 
     with ThreadPoolExecutor() as executor:
         while True:
-            mbps_future = executor.submit(get_megabits_per_second, interface)
-            pps_future = executor.submit(get_packets_per_second, interface)
+            mbps_future = executor.submit(get_megabits_per_second)
+            pps_future = executor.submit(get_packets_per_second)
             get_ram_future = executor.submit(get_ram_percentage)
             get_cpu_future = executor.submit(get_cpu_percentage)
             get_srcport_future = executor.submit(get_last_attacked_source_port)
