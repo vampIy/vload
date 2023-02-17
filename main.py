@@ -50,7 +50,9 @@ def get_megabits_per_second(interface: str) -> int:
     time.sleep(1)
     new_b = subprocess.check_output("grep %s /proc/net/dev | cut -d : -f2 | awk \'{print $1}\'" % interface, shell=True)
     new_b2 = int(float(new_b.decode('utf8').rstrip()))
-    return round(new_b2 - old_b2)
+    byte = (new_b2 - old_b2)
+    mbps = byte / 125000
+    return round(mbps)
 
 def get_packets_per_second(interface: str) -> int:
     old_ps = subprocess.check_output("grep %s /proc/net/dev | cut -d : -f2 | awk \'{print $2}\'" % interface, shell=True)
@@ -61,7 +63,7 @@ def get_packets_per_second(interface: str) -> int:
     return round(new_ps2 - old_ps2)
 
 def get_cpu_percentage():
-    cpu_percent = psutil.cpu_percent()
+    cpu_percent = psutil.cpu_freq().current
     return cpu_percent
 
 def get_ram_percentage():
