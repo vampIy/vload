@@ -49,11 +49,11 @@ def get_packets_per_second(interface: str) -> int:
 
 def get_cpu_percentage():
     cpu_percent = psutil.cpu_percent()
-    return round(cpu_percent)
+    return cpu_percent
 
 def get_ram_percentage():
     ram_percent = psutil.virtual_memory().percent
-    return round(ram_percent)
+    return ram_percent
 
 def main() -> None:
     with open("config.json", encoding="utf-8") as config_file:
