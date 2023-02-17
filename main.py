@@ -47,13 +47,13 @@ def get_megabits_per_second(interface: str) -> int:
     bits_1 = psutil.net_io_counters(pernic=True)[interface]
     time.sleep(1)
     bits_2 = psutil.net_io_counters(pernic=True)[interface]
-    return round(int((bits_2.bytes_recv - bits_1.bytes_recv) / 125000))
+    return round((bits_2.bytes_recv - bits_1.bytes_recv) / 125000)
 
 def get_packets_per_second(interface: str) -> int:
     packets_1 = psutil.net_io_counters(pernic=True)[interface]
     time.sleep(1)
     packets_2 = psutil.net_io_counters(pernic=True)[interface]
-    return round(int(packets_2.packets_recv - packets_1.packets_recv))
+    return round(packets_2.packets_recv - packets_1.packets_recv)
 
 def get_cpu_percentage():
     cpu_percent = psutil.cpu_percent()
