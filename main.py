@@ -20,6 +20,20 @@ def get_last_attacked_source_port():
             return attacked_src_port
     else:
         return
+    
+def get_last_attacked_destination_port():
+    with open('/var/log/syslog', 'r') as f:
+        log_lines = f.readlines()
+
+    attack_regex = r'.*DPT=(\d+).*'
+
+    for line in reversed(log_lines):
+        match = re.match(attack_regex, line)
+        if match:
+            attacked_dest_port = match.group(1)
+            return attacked_dest_port
+    else:
+        return
 
 def get_megabits_per_second(interface: str) -> int:
     net_io_counters_1 = psutil.net_io_counters(pernic=True)[interface]
@@ -77,12 +91,14 @@ def main() -> None:
             get_ram_future = executor.submit(get_ram_percentage)
             get_cpu_future = executor.submit(get_cpu_percentage)
             get_srcport_future = executor.submit(get_last_attacked_source_port)
+            get_dstport_future = executor.submit(get_last_attacked_destination_port)
     
             mb = mbps_future.result()
             p = pps_future.result()
             r = get_ram_future.result()
             c = get_cpu_future.result()
             s = get_srcport_future.result()
+            d = get_dstport_future.result()
 
             print(f"IP: {ip}")
             print(f"Port: {port}")
@@ -92,8 +108,9 @@ def main() -> None:
             print(f"Cpu: {c}%")
             print(f"Ram: {r}%")
             print(f"Last attacked source port: {s}")
+            print(f"Last attacked destination port: {d}")
             time.sleep(0.25)
-            for i in range(8):
+            for i in range(9):
                 sys.stdout.write('\x1b[1A')
 
 if __name__ == '__main__':
