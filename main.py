@@ -36,16 +36,16 @@ def get_last_attacked_destination_port():
         return
 
 def get_megabits_per_second(interface: str) -> int:
-    net_io_counters_1 = psutil.net_io_counters[interface]
+    net_io_counters_1 = psutil.net_io_counters(pernic=True)[interface]
     time.sleep(1)
-    net_io_counters_2 = psutil.net_io_counters[interface]
+    net_io_counters_2 = psutil.net_io_counters(pernic=True)[interface]
     mbps = ((net_io_counters_2.bytes_recv - net_io_counters_1.bytes_recv) / 125000)
     return round((net_io_counters_2.bytes_recv - net_io_counters_1.bytes_recv) / 125000)
 
 def get_packets_per_second(interface: str) -> int:
-    net_io_counters_1 = psutil.net_io_counters[interface]
+    net_io_counters_1 = psutil.net_io_counters(pernic=True)[interface]
     time.sleep(1)
-    net_io_counters_2 = psutil.net_io_counters[interface]
+    net_io_counters_2 = psutil.net_io_counters(pernic=True)[interface]
     pps = net_io_counters_2.packets_recv - net_io_counters_1.packets_recv
     return net_io_counters_2.packets_recv - net_io_counters_1.packets_recv
 
