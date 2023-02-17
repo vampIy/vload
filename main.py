@@ -7,6 +7,14 @@ import re
 from colorama import Fore
 from concurrent.futures import ThreadPoolExecutor
 
+with open("config.json", encoding="utf-8") as config_file:
+    config = json.load(config_file)
+
+    interface = config.get("interface")
+    ip = config.get("ip")
+    port = config.get("port")
+    type = config.get("type")
+
 def get_last_attacked_source_port():
     with open('/var/log/syslog', 'r') as f:
         log_lines = f.readlines()
@@ -74,14 +82,6 @@ def get_server_status():
         server_status = f"{Fore.RED}Stressed{Fore.RESET}"
 
 def main() -> None:
-    with open("config.json", encoding="utf-8") as config_file:
-        config = json.load(config_file)
-
-    interface = config.get("interface")
-    ip = config.get("ip")
-    port = config.get("port")
-    type = config.get("type")
-
     sys.stdout.write("\033[?25l")
     sys.stdout.flush()
 
