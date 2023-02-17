@@ -3,8 +3,23 @@ import sys
 import json
 import time
 import psutil
+import re
 from colorama import Fore
 from concurrent.futures import ThreadPoolExecutor
+
+def get_last_attacked_source_port():
+    with open('/var/log/syslog', 'r') as f:
+        log_lines = f.readlines()
+
+    attack_regex = r'.*SRC=.* SRCPT=(\d+)'
+    
+    for line in reversed(log_lines):
+        match = re.match(attack_regex, line)
+        if match:
+            attacked_src_port = match.group(1)
+            return attacked_src_port
+    else:
+        return
 
 def get_megabits_per_second(interface: str) -> int:
     net_io_counters_1 = psutil.net_io_counters(pernic=True)[interface]
@@ -39,19 +54,17 @@ def main() -> None:
     sys.stdout.flush()
 
     ascii = f"""
-    {Fore.LIGHTBLUE_EX}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢤⣶⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀  {Fore.RESET}
-    {Fore.LIGHTBLUE_EX}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⡾⠿⢿⡀⠀⠀⠀⠀⣠⣶⣿⣷⠀⠀⠀  {Fore.RESET}
-    {Fore.LIGHTBLUE_EX}⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣦⣴⣿⡋⠀⠀⠈⢳⡄⠀⢠⣾⣿⠁⠈⣿⡆⠀⠀ {Fore.RESET}
-    {Fore.LIGHTBLUE_EX}⠀⠀⠀⠀⠀⠀⠀⣰⣿⣿⠿⠛⠉⠉⠁⠀⠀⠀⠹⡄⣿⣿⣿⠀⠀⢹⡇⠀⠀ {Fore.RESET}
-    {Fore.LIGHTBLUE_EX}⠀⠀⠀⠀⠀⣠⣾⡿⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⣰⣏⢻⣿⣿⡆⠀⠸⣿⠀⠀⠀{Fore.RESET}
-    {Fore.LIGHTBLUE_EX}⠀⠀⠀⢀⣴⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣾⣿⣿⣆⠹⣿⣷⠀⢘⣿⠀⠀⠀{Fore.RESET}
-    {Fore.LIGHTBLUE_EX}⠀⠀⢀⡾⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⣿⠋⠉⠛⠂⠹⠿⣲⣿⣿⣧⠀⠀{Fore.RESET}
-    {Fore.LIGHTBLUE_EX}⠀⢠⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⣿⣿⣿⣷⣾⣿⡇⢀⠀⣼⣿⣿⣿⣧⠀{Fore.RESET}
-    {Fore.LIGHTBLUE_EX}⠰⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⡘⢿⣿⣿⣿⠀{Fore.RESET}
-    {Fore.LIGHTBLUE_EX}⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⣷⡈⠿⢿⣿⡆{Fore.RESET}
-    {Fore.LIGHTBLUE_EX}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠛⠁⢙⠛⣿⣿⣿⣿⡟⠀⡿⠀⠀⢀⣿⡇ {Fore.RESET}
-    {Fore.LIGHTBLUE_EX}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣶⣤⣉⣛⠻⠇⢠⣿⣾⣿⡄⢻⡇ {Fore.RESET}
-    {Fore.LIGHTBLUE_EX}⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣦⣤⣾⣿⣿⣿⣿⣆⠁ {Fore.RESET}
+    {Fore.LIGHTMAGENTA_EX}                     .::.{Fore.RESET}
+    {Fore.LIGHTMAGENTA_EX}                  .:'  .:{Fore.RESET}
+    {Fore.LIGHTMAGENTA_EX}        ,MMM8&&&.:'   .:'{Fore.RESET}
+    {Fore.LIGHTMAGENTA_EX}       MMMMM88&&&&  .:'  {Fore.RESET}
+    {Fore.LIGHTMAGENTA_EX}      MMMMM88&&&&&&:'    {Fore.RESET}
+    {Fore.LIGHTMAGENTA_EX}      MMMMM88&&&&&&      {Fore.RESET}
+    {Fore.LIGHTMAGENTA_EX}    .:MMMMM88&&&&&&      {Fore.RESET}
+    {Fore.LIGHTMAGENTA_EX}  .:'  MMMMM88&&&&       {Fore.RESET}
+    {Fore.LIGHTMAGENTA_EX}.:'   .:'MMM8&&&'        {Fore.RESET}
+    {Fore.LIGHTMAGENTA_EX}:'  .:'                  {Fore.RESET}
+    {Fore.LIGHTMAGENTA_EX}'::'                     {Fore.RESET}
     """
 
     os.system('clear')
