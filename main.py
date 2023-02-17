@@ -36,15 +36,17 @@ def get_last_attacked_destination_port():
         return
 
 def get_megabits_per_second(interface: str) -> int:
-    net_io_counters_1 = psutil.net_io_counters(pernic=True)[interface]
+    net_io_counters_1 = psutil.net_io_counters[interface]
     time.sleep(1)
-    net_io_counters_2 = psutil.net_io_counters(pernic=True)[interface]
-    return round((net_io_counters_2.bytes_recv - net_io_counters_1.bytes_recv) / 125000, 2)
+    net_io_counters_2 = psutil.net_io_counters[interface]
+    mbps = ((net_io_counters_2.bytes_recv - net_io_counters_1.bytes_recv) / 125000)
+    return round((net_io_counters_2.bytes_recv - net_io_counters_1.bytes_recv) / 125000)
 
 def get_packets_per_second(interface: str) -> int:
-    net_io_counters_1 = psutil.net_io_counters(pernic=True)[interface]
+    net_io_counters_1 = psutil.net_io_counters[interface]
     time.sleep(1)
-    net_io_counters_2 = psutil.net_io_counters(pernic=True)[interface]
+    net_io_counters_2 = psutil.net_io_counters[interface]
+    pps = net_io_counters_2.packets_recv - net_io_counters_1.packets_recv
     return net_io_counters_2.packets_recv - net_io_counters_1.packets_recv
 
 def get_cpu_percentage():
@@ -54,6 +56,18 @@ def get_cpu_percentage():
 def get_ram_percentage():
     ram_percent = psutil.virtual_memory().percent
     return ram_percent
+
+def get_server_status(pps):
+    packet_threshold = 3000
+
+    if pps < packet_threshold:
+        server_status = f"{Fore.GREEN}Excellent{Fore.RESET}"
+        return server_status
+    if pps <= packet_threshold:
+        server_status = f"{Fore.YELLOW}Regular{Fore.RESET}"
+        return server_status
+    if pps > packet_threshold:
+        server_status = f"{Fore.RED}Stressed{Fore.RESET}"
 
 def main() -> None:
     with open("config.json", encoding="utf-8") as config_file:
@@ -92,6 +106,7 @@ def main() -> None:
             get_cpu_future = executor.submit(get_cpu_percentage)
             get_srcport_future = executor.submit(get_last_attacked_source_port)
             get_dstport_future = executor.submit(get_last_attacked_destination_port)
+            get_servstatus_future = executor.submit(get_server_status)
     
             mb = mbps_future.result()
             p = pps_future.result()
@@ -99,7 +114,9 @@ def main() -> None:
             c = get_cpu_future.result()
             s = get_srcport_future.result()
             d = get_dstport_future.result()
+            ss = get_servstatus_future.result()
 
+            print(f"Server Status: {ss}")
             print(f"IP: {ip}")
             print(f"Port: {port}")
             print(f"Type: {type}")
