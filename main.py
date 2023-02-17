@@ -63,7 +63,7 @@ def get_packets_per_second(interface: str) -> int:
     return round(new_ps2 - old_ps2)
 
 def get_cpu_percentage():
-    cpu_percent = psutil.cpu_freq().current
+    cpu_percent = psutil.cpu_percent()
     return cpu_percent
 
 def get_ram_percentage():
