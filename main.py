@@ -44,18 +44,16 @@ def get_last_attacked_destination_port():
         return
 
 def get_megabits_per_second(interface: str) -> int:
-    net_io_counters_1 = psutil.net_io_counters(pernic=True)[interface]
+    bits_1 = int(psutil.net_io_counters)(pernic=True)[interface]
     time.sleep(1)
-    net_io_counters_2 = psutil.net_io_counters(pernic=True)[interface]
-    mbps = ((net_io_counters_2.bytes_recv - net_io_counters_1.bytes_recv) / 125000)
-    return round((net_io_counters_2.bytes_recv - net_io_counters_1.bytes_recv) / 125000)
+    bits_2 = int(psutil.net_io_counters)(pernic=True)[interface]
+    return round(int((bits_2.bytes_recv - bits_1.bytes_recv) / 125000))
 
 def get_packets_per_second(interface: str) -> int:
-    net_io_counters_1 = psutil.net_io_counters(pernic=True)[interface]
+    packets_1 = psutil.net_io_counters(pernic=True)[interface]
     time.sleep(1)
-    net_io_counters_2 = psutil.net_io_counters(pernic=True)[interface]
-    pps = net_io_counters_2.packets_recv - net_io_counters_1.packets_recv
-    return net_io_counters_2.packets_recv - net_io_counters_1.packets_recv
+    packets_2 = psutil.net_io_counters(pernic=True)[interface]
+    return round(int(packets_2.packets_recv - packets_1.packets_recv))
 
 def get_cpu_percentage():
     cpu_percent = psutil.cpu_percent()
@@ -125,7 +123,7 @@ def main() -> None:
             print(f"Port: {port}")
             print(f"Type: {type}")
             print(f"Megabits/s: {mb}")
-            print(f"Packets/s: {p:,}")
+            print(f"Packets/s: {p}")
             print(f"Cpu(%): {c}")
             print(f"Ram(%): {r}")
             print(f"Last attacked source port: {s}")
