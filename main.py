@@ -104,7 +104,7 @@ def main() -> None:
             print(f"Port: {port}")
             print(f"Type: {type}")
             print(f"Megabits/s: {mb}")
-            print(f"Packets/s: {p}")
+            print(f"Packets/s: {p:,}")
             print(f"Cpu(%): {c}")
             print(f"Ram(%): {r}")
             print(f"Last attacked source port: {s}")
