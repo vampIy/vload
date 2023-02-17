@@ -12,7 +12,7 @@ def get_last_attacked_source_port():
         log_lines = f.readlines()
 
     attack_regex = r'.*SRC=.* SRCPT=(\d+)'
-    
+
     for line in reversed(log_lines):
         match = re.match(attack_regex, line)
         if match:
@@ -76,11 +76,13 @@ def main() -> None:
             pps_future = executor.submit(get_packets_per_second, interface)
             get_ram_future = executor.submit(get_ram_percentage)
             get_cpu_future = executor.submit(get_cpu_percentage)
+            get_srcport_future = executor.submit(get_last_attacked_source_port)
     
             mb = mbps_future.result()
             p = pps_future.result()
             r = get_ram_future.result()
             c = get_cpu_future.result()
+            s = get_srcport_future.result()
 
             print(f"IP: {ip}")
             print(f"Port: {port}")
@@ -89,6 +91,7 @@ def main() -> None:
             print(f"Packets/s: {p:,}")
             print(f"Cpu: {c}%")
             print(f"Ram: {r}%")
+            print(f"Last attacked source port: {s}")
             time.sleep(0.25)
             for i in range(7):
                 sys.stdout.write('\x1b[1A')
