@@ -57,7 +57,11 @@ def get_ram_percentage():
     ram_percent = psutil.virtual_memory().percent
     return ram_percent
 
-def get_server_status(pps):
+def get_server_status():
+    net_io_counters_1 = psutil.net_io_counters(pernic=True)[interface]
+    time.sleep(1)
+    net_io_counters_2 = psutil.net_io_counters(pernic=True)[interface]
+    pps = net_io_counters_2.packets_recv - net_io_counters_1.packets_recv
     packet_threshold = 3000
 
     if pps < packet_threshold:
