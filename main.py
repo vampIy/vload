@@ -5,6 +5,7 @@ import time
 import psutil
 import re
 from colorama import Fore
+import subprocess
 from concurrent.futures import ThreadPoolExecutor
 
 with open("config.json", encoding="utf-8") as config_file:
@@ -43,17 +44,21 @@ def get_last_attacked_destination_port():
     else:
         return
 
-def get_megabits_per_second(interface: str) -> int:
-    bits_1 = psutil.net_io_counters(pernic=True)[interface]
+def get_megabits_per_second():
+    old_b = subprocess.check_output("grep %s /proc/net/dev | cut -d : -f2 | awk \'{print $1}\'" % interface, shell=True)
+    old_b2 = int(float(old_b.decode('utf8').rstrip()))
     time.sleep(1)
-    bits_2 = psutil.net_io_counters(pernic=True)[interface]
-    return round((bits_2.bytes_recv - bits_1.bytes_recv) / 125000)
+    new_b = subprocess.check_output("grep %s /proc/net/dev | cut -d : -f2 | awk \'{print $1}\'" % interface, shell=True)
+    new_b2 = int(float(new_b.decode('utf8').rstrip()))
+    return round(new_b2 - old_b2)
 
 def get_packets_per_second(interface: str) -> int:
-    packets_1 = psutil.net_io_counters(pernic=True)[interface]
+    old_ps = subprocess.check_output("grep %s /proc/net/dev | cut -d : -f2 | awk \'{print $2}\'" % interface, shell=True)
+    old_ps2 = int(float(old_ps.decode('utf8').rstrip()))
     time.sleep(1)
-    packets_2 = psutil.net_io_counters(pernic=True)[interface]
-    return round(packets_2.packets_recv - packets_1.packets_recv)
+    new_ps = subprocess.check_output('grep %s /proc/net/dev | cut -d : -f2 | awk \'{print $2}\'' % interface, shell=True)
+    new_ps2 = int(float(new_ps.decode('utf8').rstrip()))
+    return round(new_ps2 - old_ps2)
 
 def get_cpu_percentage():
     cpu_percent = psutil.cpu_percent()
