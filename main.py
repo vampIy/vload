@@ -44,9 +44,9 @@ def get_last_attacked_destination_port():
         return
 
 def get_megabits_per_second(interface: str) -> int:
-    bits_1 = int(psutil.net_io_counters)(pernic=True)[interface]
+    bits_1 = psutil.net_io_counters(pernic=True)[interface]
     time.sleep(1)
-    bits_2 = int(psutil.net_io_counters)(pernic=True)[interface]
+    bits_2 = psutil.net_io_counters(pernic=True)[interface]
     return round(int((bits_2.bytes_recv - bits_1.bytes_recv) / 125000))
 
 def get_packets_per_second(interface: str) -> int:
