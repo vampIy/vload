@@ -76,7 +76,7 @@ def get_server_status():
     time.sleep(1)
     new_ps = subprocess.check_output('grep %s /proc/net/dev | cut -d : -f2 | awk \'{print $2}\'' % interface, shell=True)
     new_ps2 = int(float(new_ps.decode('utf8').rstrip()))
-    pps = new_ps2.packets_recv - old_ps2.packets_recv
+    pps = new_ps2 - old_ps2
 
     if int(pps) > 2500:
         load = "High"
