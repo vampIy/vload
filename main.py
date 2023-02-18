@@ -71,41 +71,27 @@ def get_ram_percentage():
     return ram_percent
 
 def get_server_status():
-    net_io_counters_1 = psutil.net_io_counters(pernic=True)[interface]
+    old_ps = subprocess.check_output("grep %s /proc/net/dev | cut -d : -f2 | awk \'{print $2}\'" % interface, shell=True)
+    old_ps2 = int(float(old_ps.decode('utf8').rstrip()))
     time.sleep(1)
-    net_io_counters_2 = psutil.net_io_counters(pernic=True)[interface]
-    pps = net_io_counters_2.packets_recv - net_io_counters_1.packets_recv
-    packet_threshold = 3000
+    new_ps = subprocess.check_output('grep %s /proc/net/dev | cut -d : -f2 | awk \'{print $2}\'' % interface, shell=True)
+    new_ps2 = int(float(new_ps.decode('utf8').rstrip()))
+    pps = new_ps2.packets_recv - old_ps2.packets_recv
 
-    if pps < packet_threshold:
-        server_status = f"{Fore.GREEN}Excellent{Fore.RESET}"
-        return server_status
-    if pps <= packet_threshold:
-        server_status = f"{Fore.YELLOW}Regular{Fore.RESET}"
-        return server_status
-    if pps > packet_threshold:
-        server_status = f"{Fore.RED}Stressed{Fore.RESET}"
+    if int(pps) > 2500:
+        load = "High"
+    if int(pps) > 1000 < 2000:
+        load = "Medium"
+    if int(pps) > 500 < 1000:
+        load = "low"
+    if int(pps) > 0 < 2500:
+        load = "essentially no load"
 
 def main() -> None:
     sys.stdout.write("\033[?25l")
     sys.stdout.flush()
 
-    ascii = f"""
-    {Fore.LIGHTMAGENTA_EX}                     .::.{Fore.RESET}
-    {Fore.LIGHTMAGENTA_EX}                  .:'  .:{Fore.RESET}
-    {Fore.LIGHTMAGENTA_EX}        ,MMM8&&&.:'   .:'{Fore.RESET}
-    {Fore.LIGHTMAGENTA_EX}       MMMMM88&&&&  .:'  {Fore.RESET}
-    {Fore.LIGHTMAGENTA_EX}      MMMMM88&&&&&&:'    {Fore.RESET}
-    {Fore.LIGHTMAGENTA_EX}      MMMMM88&&&&&&      {Fore.RESET}
-    {Fore.LIGHTMAGENTA_EX}    .:MMMMM88&&&&&&      {Fore.RESET}
-    {Fore.LIGHTMAGENTA_EX}  .:'  MMMMM88&&&&       {Fore.RESET}
-    {Fore.LIGHTMAGENTA_EX}.:'   .:'MMM8&&&'        {Fore.RESET}
-    {Fore.LIGHTMAGENTA_EX}:'  .:'                  {Fore.RESET}
-    {Fore.LIGHTMAGENTA_EX}'::'                     {Fore.RESET}
-    """
-
     os.system('clear')
-    print(f"{ascii}")
 
     with ThreadPoolExecutor() as executor:
         while True:
@@ -125,14 +111,7 @@ def main() -> None:
             d = get_dstport_future.result()
             ss = get_servstatus_future.result()
 
-            print(f"Server Status: {ss}")
-            print(f"IP: {ip}")
-            print(f"Port: {port}")
-            print(f"Type: {type}")
-            print(f"Megabits/s: {mb}")
-            print(f"Packets/s: {p}")
-            print(f"Cpu(%): {c}")
-            print(f"Ram(%): {r}")
+            print(f"Server Status: {ss}  |  Mbits/s: {mb}  |  Packets/s: {p}  |  Cpu: {c}%  |  Ram: {r}%")
             print(f"Last attacked source port: {s}")
             print(f"Last attacked destination port: {d}")
             for i in range(10):
