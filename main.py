@@ -112,9 +112,7 @@ def main() -> None:
             ss = get_servstatus_future.result()
 
             print(f"Server Status: {ss}  |  Mbits/s: {mb}  |  Packets/s: {p}  |  Cpu: {c}%  |  Ram: {r}%")
-            print(f"Last attacked source port: {s}")
-            print(f"Last attacked destination port: {d}")
-            for i in range(10):
+            for i in range(1):
                 sys.stdout.write('\x1b[1A')
 
 if __name__ == '__main__':
